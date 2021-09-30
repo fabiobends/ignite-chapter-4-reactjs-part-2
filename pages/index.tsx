@@ -11,9 +11,9 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const { signIn, isAuthenticated } = useAuth();
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    signIn({ email, password });
+    await signIn({ email, password });
   };
 
   return (
