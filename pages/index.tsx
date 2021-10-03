@@ -1,10 +1,10 @@
-import Head from "next/head";
-import Image from "next/image";
-import { eventNames } from "process";
 import { FormEvent, useState } from "react";
+import { GetServerSideProps } from "next";
 import { useAuth } from "../hooks/useAuth";
 
 import styles from "../styles/Home.module.css";
+import { parseCookies } from "nookies";
+import { withSSRGuest } from "../utils/withSSRGuest";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -32,3 +32,9 @@ export default function Home() {
     </form>
   );
 }
+
+export const getServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {},
+  };
+});
