@@ -1,3 +1,4 @@
+import { validadeUserPermissions } from "../utils/validateUserPermissions";
 import { useAuth } from "./useAuth";
 
 type UsePermitParams = {
@@ -12,25 +13,11 @@ export function usePermit({ permissions, roles }: UsePermitParams) {
     return false;
   }
 
-  if (permissions?.length > 0) {
-    const hasAllPermissions = permissions.every((permission) => {
-      return user.permissions.includes(permission);
-    });
+  const userHasValidPermissions = validadeUserPermissions({
+    user,
+    permissions,
+    roles,
+  });
 
-    if (!hasAllPermissions) {
-      return false;
-    }
-  }
-
-  if (roles?.length > 0) {
-    const hasAllRoles = roles.some((role) => {
-      return user.roles.includes(role);
-    });
-
-    if (!hasAllRoles) {
-      return false;
-    }
-  }
-
-  return true;
+  return userHasValidPermissions;
 }
