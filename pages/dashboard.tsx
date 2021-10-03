@@ -1,5 +1,6 @@
 import { destroyCookie } from "nookies";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { Permit } from "../components/Permit";
 import { useAuth } from "../hooks/useAuth";
 import { usePermit } from "../hooks/usePermit";
 import { setupAPIClient } from "../services/api";
@@ -8,11 +9,6 @@ import { withSSRAuth } from "../utils/withSSRAuth";
 
 export default function Dashboard() {
   const { user } = useAuth();
-
-  const userCanSeeMetrics = usePermit({
-    // permissions: ["metrics.list"],
-    roles: ["administrator"],
-  });
 
   useEffect(() => {
     api
@@ -24,7 +20,9 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard: {user?.email}</h1>
-      {userCanSeeMetrics && <div>Métricas</div>}
+      <Permit permissions={["metrics.list"]}>
+        <div>Métricas</div>
+      </Permit>
     </div>
   );
 }
